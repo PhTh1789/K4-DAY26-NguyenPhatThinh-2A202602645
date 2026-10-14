@@ -9,12 +9,14 @@ Cách chạy:
     python weather_function_calling.py
 """
 
+import os
+
 from google import genai
 from google.genai import types
 
 client = genai.Client()
 
-MODEL = "gemini-2.5-flash"
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.8-flash")
 
 SYSTEM_INSTRUCTION = (
     "Bạn là trợ lý thời tiết thân thiện, trả lời bằng tiếng Việt tự nhiên. "
@@ -66,8 +68,20 @@ def get_weather(city: str) -> str:
     }
     import json
 
+    aliases = {
+        "hanoi": "Hà Nội",
+        "ha noi": "Hà Nội",
+        "danang": "Đà Nẵng",
+        "da nang": "Đà Nẵng",
+        "hochiminh": "Hồ Chí Minh",
+        "ho chi minh": "Hồ Chí Minh",
+    }
+    lookup_city = aliases.get(city.casefold().strip(), city)
     default = {"nhiệt_độ": "28°C", "thời_tiết": "không có dữ liệu chi tiết"}
-    return json.dumps({"city": city, **mock_data.get(city, default)}, ensure_ascii=False)
+    return json.dumps(
+        {"city": city, **mock_data.get(lookup_city, default)},
+        ensure_ascii=False,
+    )
 
 
 def run(prompt: str) -> str:
