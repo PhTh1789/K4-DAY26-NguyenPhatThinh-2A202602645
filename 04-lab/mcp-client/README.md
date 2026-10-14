@@ -51,7 +51,9 @@ cd mcp-client
 
 # Create .env file with your Google API key
 # Get free key from: https://aistudio.google.com/apikey
-echo "GOOGLE_API_KEY=your_google_api_key_here" > .env
+# GOOGLE_API_KEY=your_google_api_key_here
+# MCP_SERVER_URL=http://localhost:8085/mcp
+# GEMINI_MODEL=gemini-3.5-flash-lite
 ```
 
 ### 3. Install Dependencies
@@ -107,6 +109,9 @@ root_agent = Agent(
     tools=[weather_tools],
 )
 ```
+
+The agent loads `mcp-client/.env` automatically. `GEMINI_MODEL` can override
+the default model without changing source code.
 
 ## Troubleshooting
 

@@ -57,7 +57,8 @@ cd mcp-server
 uv sync
 
 # Set your WeatherAPI key (get one free at https://weatherapi.com)
-export WEATHERAPI_KEY="your_weatherapi_key"
+# Or put WEATHERAPI_KEY and PORT=8085 in mcp-server/.env
+$env:WEATHERAPI_KEY="your_weatherapi_key"
 
 # Start the server (runs on port 8085 by default)
 uv run python weather.py
@@ -72,7 +73,8 @@ cd mcp-client
 uv sync
 
 # Create .env file with your Gemini API key
-echo "GOOGLE_API_KEY=your_gemini_api_key" > .env
+# GOOGLE_API_KEY=your_gemini_api_key
+# MCP_SERVER_URL=http://localhost:8085/mcp
 
 # Start ADK web interface
 uv run adk web
@@ -88,3 +90,7 @@ Open http://localhost:8000 in your browser, select `weather_agent`, and ask abou
 | `GOOGLE_API_KEY` | mcp-client/.env | Gemini API key |
 | `PORT` | mcp-server (env) | Override server port (default: 8085) |
 | `MCP_SERVER_URL` | mcp-client/.env | MCP endpoint the agent connects to (default: `http://localhost:8085/mcp`; set to your Cloud Run URL + `/mcp` when deployed) |
+| `GEMINI_MODEL` | mcp-client/.env | Gemini model name (default: `gemini-3.5-flash-lite`) |
+
+Both applications load their local `.env` file automatically. Never commit these
+files or include API keys in screenshots.
